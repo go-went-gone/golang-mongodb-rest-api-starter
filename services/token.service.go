@@ -13,7 +13,7 @@ import (
 
 // CreateToken create a new token record
 func CreateToken(user *db.User, tokenType string, expiresAt time.Time) (*db.Token, error) {
-	claims := &db.UserClaims{
+	userClaims := &db.UserClaims{
 		Email: user.Email,
 		Type:  tokenType,
 		RegisteredClaims: jwt.RegisteredClaims{
@@ -23,14 +23,16 @@ func CreateToken(user *db.User, tokenType string, expiresAt time.Time) (*db.Toke
 		},
 	}
 
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, userClaims)
 	tokenString, err := token.SignedString([]byte(Config.JWTSecretKey))
+
 	if err != nil {
 		return nil, errors.New("cannot create access token")
 	}
 
 	tokenModel := db.NewToken(user.ID, tokenString, tokenType, expiresAt)
 	err = mgm.Coll(tokenModel).Create(tokenModel)
+
 	if err != nil {
 		return nil, errors.New("cannot save access token to db")
 	}
@@ -41,7 +43,9 @@ func CreateToken(user *db.User, tokenType string, expiresAt time.Time) (*db.Toke
 // DeleteTokenById delete token with id
 func DeleteTokenById(tokenId primitive.ObjectID) error {
 	ctx := mgm.Ctx()
+
 	deleteResult, err := mgm.Coll(&db.Token{}).DeleteOne(ctx, bson.M{field.ID: tokenId})
+	
 	if err != nil || deleteResult.DeletedCount <= 0 {
 		return errors.New("cannot delete token")
 	}
@@ -88,6 +92,7 @@ func VerifyToken(token string, tokenType string) (*db.Token, error) {
 		bson.M{"type": tokenType, "user": userId, "blacklisted": false},
 		tokenModel,
 	)
+	
 	if err != nil {
 		return nil, errors.New("cannot find token")
 	}

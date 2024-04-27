@@ -13,13 +13,13 @@ import (
 
 // CreateNote create new note record
 func CreateNote(userId primitive.ObjectID, title string, content string) (*db.Note, error) {
-	note := db.NewNote(userId, title, content)
-	err := mgm.Coll(note).Create(note)
+	newNote := db.NewNote(userId, title, content)
+	err := mgm.Coll(newNote).Create(newNote)
 	if err != nil {
 		return nil, errors.New("cannot create new note")
 	}
 
-	return note, nil
+	return newNote, nil
 }
 
 // GetNotes get paginated note list

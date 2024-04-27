@@ -20,7 +20,7 @@ func NewNote(author primitive.ObjectID, title string, content string) *Note {
 	}
 }
 
-func (model *Note) CollectionName() string {
+func (notePointer *Note) CollectionName() string {
 	return "notes"
 }
 

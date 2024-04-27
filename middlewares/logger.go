@@ -10,6 +10,7 @@ const LogPath = "logs/"
 const LogFile = "access.log"
 
 func LogWriter() io.Writer {
+	// make directory
 	_ = os.Mkdir(LogPath, 0770)
 
 	logFilePath := path.Join(LogPath, LogFile)

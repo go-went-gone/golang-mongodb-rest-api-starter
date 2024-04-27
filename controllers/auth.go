@@ -21,9 +21,9 @@ import (
 // @Success      200  {object}  models.Response
 // @Failure      400  {object}  models.Response
 // @Router       /auth/register [post]
-func Register(c *gin.Context) {
+func Register(ginContext *gin.Context) {
 	var requestBody models.RegisterRequest
-	_ = c.ShouldBindBodyWith(&requestBody, binding.JSON)
+	_ = ginContext.ShouldBindBodyWith(&requestBody, binding.JSON)
 
 	response := &models.Response{
 		StatusCode: http.StatusBadRequest,
@@ -32,26 +32,29 @@ func Register(c *gin.Context) {
 
 	// is email in use
 	err := services.CheckUserMail(requestBody.Email)
+
 	if err != nil {
 		response.Message = err.Error()
-		response.SendResponse(c)
+		response.SendResponse(ginContext)
 		return
 	}
 
 	// create user record
 	requestBody.Name = strings.TrimSpace(requestBody.Name)
 	user, err := services.CreateUser(requestBody.Name, requestBody.Email, requestBody.Password)
+
 	if err != nil {
 		response.Message = err.Error()
-		response.SendResponse(c)
+		response.SendResponse(ginContext)
 		return
 	}
 
 	// generate access tokens
 	accessToken, refreshToken, err := services.GenerateAccessTokens(user)
+	
 	if err != nil {
 		response.Message = err.Error()
-		response.SendResponse(c)
+		response.SendResponse(ginContext)
 		return
 	}
 
@@ -63,7 +66,7 @@ func Register(c *gin.Context) {
 			"access":  accessToken.GetResponseJson(),
 			"refresh": refreshToken.GetResponseJson()},
 	}
-	response.SendResponse(c)
+	response.SendResponse(ginContext)
 }
 
 // Login godoc

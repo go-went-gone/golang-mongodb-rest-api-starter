@@ -12,25 +12,25 @@ import (
 )
 
 func New() *gin.Engine {
-	r := gin.New()
-	initRoute(r)
+	ginNew := gin.New()
+	initRoute(ginNew)
 
-	r.Use(gin.LoggerWithWriter(middlewares.LogWriter()))
-	r.Use(gin.CustomRecovery(middlewares.AppRecovery()))
-	r.Use(middlewares.CORSMiddleware())
+	ginNew.Use(gin.LoggerWithWriter(middlewares.LogWriter()))
+	ginNew.Use(gin.CustomRecovery(middlewares.AppRecovery()))
+	ginNew.Use(middlewares.CORSMiddleware())
 
-	v1 := r.Group("/v1")
+	v1Group := ginNew.Group("/v1")
 	{
-		PingRoute(v1)
-		AuthRoute(v1)
-		NoteRoute(v1, middlewares.JWTMiddleware())
+		PingRoute(v1Group)
+		AuthRoute(v1Group)
+		NoteRoute(v1Group, middlewares.JWTMiddleware())
 	}
 
-	docs.SwaggerInfo.BasePath = v1.BasePath() // adds /v1 to swagger base path
+	docs.SwaggerInfo.BasePath = v1Group.BasePath() // adds /v1 to swagger base path
 
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+	ginNew.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
-	return r
+	return ginNew
 }
 
 func initRoute(r *gin.Engine) {

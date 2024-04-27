@@ -10,17 +10,17 @@ import (
 )
 
 func CreateNoteValidator() gin.HandlerFunc {
-	return func(c *gin.Context) {
+	return func(ginContext *gin.Context) {
 
 		var createNoteRequest models.NoteRequest
-		_ = c.ShouldBindBodyWith(&createNoteRequest, binding.JSON)
+		_ = ginContext.ShouldBindBodyWith(&createNoteRequest, binding.JSON)
 
 		if err := createNoteRequest.Validate(); err != nil {
-			models.SendErrorResponse(c, http.StatusBadRequest, err.Error())
+			models.SendErrorResponse(ginContext, http.StatusBadRequest, err.Error())
 			return
 		}
 
-		c.Next()
+		ginContext.Next()
 	}
 }
 

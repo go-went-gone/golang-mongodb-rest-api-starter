@@ -16,13 +16,13 @@ func CreateUser(name string, email string, plainPassword string) (*db.User, erro
 		return nil, errors.New("cannot generate hashed password")
 	}
 
-	user := db.NewUser(email, string(password), name, db.RoleUser)
-	err = mgm.Coll(user).Create(user)
+	newUser := db.NewUser(email, string(password), name, db.RoleUser)
+	err = mgm.Coll(newUser).Create(newUser)
 	if err != nil {
 		return nil, errors.New("cannot create new user")
 	}
 
-	return user, nil
+	return newUser, nil
 }
 
 // FindUserById find user by id

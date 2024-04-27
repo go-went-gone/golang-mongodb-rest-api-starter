@@ -5,10 +5,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func PingRoute(router *gin.RouterGroup) {
-	auth := router.Group("/ping")
+func PingRoute(ginRouterGroup *gin.RouterGroup) {
+	ping := ginRouterGroup.Group("/ping")
 	{
-		auth.GET(
+		ping.GET(
 			"",
 			controllers.Ping,
 		)

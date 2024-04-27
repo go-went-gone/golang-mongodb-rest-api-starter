@@ -14,12 +14,12 @@ import (
 // @Produce      json
 // @Success      200  {object}  models.Response
 // @Router       /ping [get]
-func Ping(c *gin.Context) {
+func Ping(ginContext *gin.Context) {
 	response := &models.Response{
 		StatusCode: http.StatusOK,
 		Success:    true,
 		Message:    "pong",
 	}
 
-	response.SendResponse(c)
+	response.SendResponse(ginContext)
 }

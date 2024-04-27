@@ -38,6 +38,7 @@ func main() {
 		services.CheckRedisConnection()
 	}
 
+	// init gin
 	routes.InitGin()
 	router := routes.New()
 

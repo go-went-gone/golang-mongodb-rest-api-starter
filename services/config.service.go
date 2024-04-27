@@ -8,19 +8,19 @@ import (
 var Config *models.EnvConfig
 
 func LoadConfig() {
-	v := viper.New()
-	v.AutomaticEnv()
-	v.SetDefault("SERVER_PORT", "8080")
-	v.SetDefault("MODE", "debug")
-	v.SetConfigType("dotenv")
-	v.SetConfigName(".env")
-	v.AddConfigPath("./")
+	viper := viper.New()
+	viper.AutomaticEnv()
+	viper.SetDefault("SERVER_PORT", "8080")
+	viper.SetDefault("MODE", "debug")
+	viper.SetConfigType("dotenv")
+	viper.SetConfigName(".env")
+	viper.AddConfigPath("./")
 
-	if err := v.ReadInConfig(); err != nil {
+	if err := viper.ReadInConfig(); err != nil {
 		panic(err)
 	}
 
-	if err := v.Unmarshal(&Config); err != nil {
+	if err := viper.Unmarshal(&Config); err != nil {
 		panic(err)
 	}
 

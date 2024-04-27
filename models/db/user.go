@@ -34,7 +34,7 @@ func NewUser(email string, password string, name string, role string) *User {
 	}
 }
 
-func (model *User) CollectionName() string {
+func (userPointer *User) CollectionName() string {
 	return "users"
 }
 

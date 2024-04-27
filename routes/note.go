@@ -6,8 +6,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func NoteRoute(router *gin.RouterGroup, handlers ...gin.HandlerFunc) {
-	notes := router.Group("/notes", handlers...)
+func NoteRoute(ginRouterGroup *gin.RouterGroup, handlers ...gin.HandlerFunc) {
+	notes := ginRouterGroup.Group("/notes", handlers...)
 	{
 		notes.POST(
 			"",

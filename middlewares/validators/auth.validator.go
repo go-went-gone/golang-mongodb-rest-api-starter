@@ -8,17 +8,17 @@ import (
 )
 
 func RegisterValidator() gin.HandlerFunc {
-	return func(c *gin.Context) {
+	return func(ginContext *gin.Context) {
 
 		var registerRequest models.RegisterRequest
-		_ = c.ShouldBindBodyWith(&registerRequest, binding.JSON)
+		_ = ginContext.ShouldBindBodyWith(&registerRequest, binding.JSON)
 
 		if err := registerRequest.Validate(); err != nil {
-			models.SendErrorResponse(c, http.StatusBadRequest, err.Error())
+			models.SendErrorResponse(ginContext, http.StatusBadRequest, err.Error())
 			return
 		}
 
-		c.Next()
+		ginContext.Next()
 	}
 }
 

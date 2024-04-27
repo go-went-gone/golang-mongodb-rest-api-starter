@@ -61,20 +61,20 @@ func CreateNewNote(c *gin.Context) {
 // @Failure      400  {object}  models.Response
 // @Router       /notes [get]
 // @Security     ApiKeyAuth
-func GetNotes(c *gin.Context) {
+func GetNotes(ginContext *gin.Context) {
 	response := &models.Response{
 		StatusCode: http.StatusBadRequest,
 		Success:    false,
 	}
 
-	userId, exists := c.Get("userId")
+	userId, exists := ginContext.Get("userId")
 	if !exists {
 		response.Message = "cannot get user"
-		response.SendResponse(c)
+		response.SendResponse(ginContext)
 		return
 	}
 
-	pageQuery := c.DefaultQuery("page", "0")
+	pageQuery := ginContext.DefaultQuery("page", "0")
 	page, _ := strconv.Atoi(pageQuery)
 	limit := 5
 
@@ -89,7 +89,7 @@ func GetNotes(c *gin.Context) {
 	response.StatusCode = http.StatusOK
 	response.Success = true
 	response.Data = gin.H{"notes": notes, "prev": hasPrev, "next": hasNext}
-	response.SendResponse(c)
+	response.SendResponse(ginContext)
 }
 
 // GetOneNote godoc

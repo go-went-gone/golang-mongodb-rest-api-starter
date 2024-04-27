@@ -13,17 +13,17 @@ type Response struct {
 	Data       map[string]any `json:"data,omitempty"`
 }
 
-func (response *Response) SendResponse(c *gin.Context) {
-	c.AbortWithStatusJSON(response.StatusCode, response)
+func (response *Response) SendResponse(ginContext *gin.Context) {
+	ginContext.AbortWithStatusJSON(response.StatusCode, response)
 }
 
-func SendResponseData(c *gin.Context, data gin.H) {
+func SendResponseData(ginContext *gin.Context, data gin.H) {
 	response := &Response{
 		StatusCode: http.StatusOK,
 		Success:    true,
 		Data:       data,
 	}
-	response.SendResponse(c)
+	response.SendResponse(ginContext)
 }
 
 func SendErrorResponse(c *gin.Context, status int, message string) {

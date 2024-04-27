@@ -35,7 +35,7 @@ func NewToken(userId primitive.ObjectID, tokenString string, tokenType string, e
 	}
 }
 
-func (model *Token) CollectionName() string {
+func (tokenPointer *Token) CollectionName() string {
 	return "tokens"
 }
 

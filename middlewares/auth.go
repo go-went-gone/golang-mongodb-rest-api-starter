@@ -8,18 +8,19 @@ import (
 	"net/http"
 )
 
+// authrization, authentication
 func JWTMiddleware() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		token := c.GetHeader("Bearer-Token")
+	return func(ginContext *gin.Context) {
+		token := ginContext.GetHeader("Authroization")
 		tokenModel, err := services.VerifyToken(token, db.TokenTypeAccess)
 		if err != nil {
-			models.SendErrorResponse(c, http.StatusUnauthorized, err.Error())
+			models.SendErrorResponse(ginContext, http.StatusUnauthorized, err.Error())
 			return
 		}
 
-		c.Set("userIdHex", tokenModel.User.Hex())
-		c.Set("userId", tokenModel.User)
+		ginContext.Set("userIdHex", tokenModel.User.Hex())
+		ginContext.Set("userId", tokenModel.User)
 
-		c.Next()
+		ginContext.Next()
 	}
 }

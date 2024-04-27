@@ -42,10 +42,10 @@ type RefreshRequest struct {
 	Token string `json:"token"`
 }
 
-func (a RefreshRequest) Validate() error {
-	return validation.ValidateStruct(&a,
+func (refreshRequest RefreshRequest) Validate() error {
+	return validation.ValidateStruct(&refreshRequest,
 		validation.Field(
-			&a.Token,
+			&refreshRequest.Token,
 			validation.Required,
 			validation.Match(regexp.MustCompile("^\\S+$")).Error("cannot contain whitespaces"),
 		),
@@ -57,9 +57,9 @@ type NoteRequest struct {
 	Content string `json:"content"`
 }
 
-func (a NoteRequest) Validate() error {
-	return validation.ValidateStruct(&a,
-		validation.Field(&a.Title, validation.Required),
-		validation.Field(&a.Content, validation.Required),
+func (noteRequest NoteRequest) Validate() error {
+	return validation.ValidateStruct(&noteRequest,
+		validation.Field(&noteRequest.Title, validation.Required),
+		validation.Field(&noteRequest.Content, validation.Required),
 	)
 }

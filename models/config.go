@@ -2,7 +2,7 @@ package models
 
 import (
 	validation "github.com/go-ozzo/ozzo-validation"
-	"github.com/go-ozzo/ozzo-validation/is"
+	iss "github.com/go-ozzo/ozzo-validation/is"
 )
 
 type EnvConfig struct {
@@ -18,21 +18,21 @@ type EnvConfig struct {
 	Mode                       string `mapstructure:"MODE"`
 }
 
-func (config *EnvConfig) Validate() error {
-	return validation.ValidateStruct(config,
-		validation.Field(&config.ServerPort, is.Port),
-		validation.Field(&config.ServerAddr, validation.Required),
+func (envConfigPointer *EnvConfig) Validate() error {
+	return validation.ValidateStruct(envConfigPointer,
+		validation.Field(&envConfigPointer.ServerPort, iss.Port),
+		validation.Field(&envConfigPointer.ServerAddr, validation.Required),
 
-		validation.Field(&config.MongodbUri, validation.Required),
-		validation.Field(&config.MongodbDatabase, validation.Required),
+		validation.Field(&envConfigPointer.MongodbUri, validation.Required),
+		validation.Field(&envConfigPointer.MongodbDatabase, validation.Required),
 
-		validation.Field(&config.UseRedis, validation.In(true, false)),
-		validation.Field(&config.RedisDefaultAddr),
+		validation.Field(&envConfigPointer.UseRedis, validation.In(true, false)),
+		validation.Field(&envConfigPointer.RedisDefaultAddr),
 
-		validation.Field(&config.JWTSecretKey, validation.Required),
-		validation.Field(&config.JWTAccessExpirationMinutes, validation.Required),
-		validation.Field(&config.JWTRefreshExpirationDays, validation.Required),
+		validation.Field(&envConfigPointer.JWTSecretKey, validation.Required),
+		validation.Field(&envConfigPointer.JWTAccessExpirationMinutes, validation.Required),
+		validation.Field(&envConfigPointer.JWTRefreshExpirationDays, validation.Required),
 
-		validation.Field(&config.Mode, validation.In("debug", "release")),
+		validation.Field(&envConfigPointer.Mode, validation.In("debug", "release")),
 	)
 }

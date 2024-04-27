@@ -21,7 +21,7 @@ func InitMongoDB() {
 		panic(err)
 	}
 
-	log.Println("Connected to MongoDB!")
+	log.Println("Connected to MongoDB! Krub")
 }
 
 var redisDefaultClient *redis.Client

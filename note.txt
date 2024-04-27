@@ -1,0 +1,14 @@
+
+middleware
+middleware.validators
+middleware.auth
+middleware.cors
+middleware.logger
+middleware.recovery
+
+model
+model.db
+model.request
+model.response
+
+main.go > routes > controllers > services
